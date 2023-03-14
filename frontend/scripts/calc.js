@@ -1,4 +1,4 @@
-function calcSecond(){
+function calcSum(){
     var num = document.getElementById("numberInput").value;
     fetch("http://127.0.0.1:8080/second?num=" + num)
     .then(function(response) {
@@ -13,7 +13,7 @@ function calcSecond(){
     .catch(err => {document.getElementById("responseField").innerHTML = "Ошибка: " + err;})
 }
 
-function calcRoot(){
+function calcDif(){
     var num = document.getElementById("numberInput").value;
     if (num < 0) {
         document.getElementById("responseField").innerHTML = "Результат: введите НЕОТРИЦАТЕЛЬНОЕ число";
@@ -33,7 +33,7 @@ function calcRoot(){
     .catch(err => {document.getElementById("responseField").innerHTML = "Ошибка: " + err;})
 }
 
-function calcFact(){
+function calcMultiply(){
     var num = document.getElementById("numberInput").value;
     if (num < 0) {
         document.getElementById("responseField").innerHTML = "Результат: введите НЕОТРИЦАТЕЛЬНОЕ число";
@@ -53,7 +53,7 @@ function calcFact(){
     .catch(err => {document.getElementById("responseField").innerHTML = "Ошибка: " + err;})
 }
 
-function calcDigit(){
+function calcDiv(){
     var num = document.getElementById("numberInput").value;
     fetch("http://127.0.0.1:8080/digit?num=" + num)
     .then((response) => {

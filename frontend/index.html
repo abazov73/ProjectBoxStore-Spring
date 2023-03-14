@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src ="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src ="scripts/calc.js"></script>
+		<script src ="scripts/calcType.js"></script>
 		<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
 		<title>Calc</title>
@@ -12,13 +12,18 @@
 	</head>
 	<body class="h-100">
         <div class="d-flex flex-column align-content-center flex-wrap">
-		    <div class="input-group p-3">
-                <input id="numberInput" type="number" class="form-control" placeholder="Введите число..." required>
-                <button class="btn btn-outline-secondary" onclick="calcSecond()" type="button">^2</button>
-                <button class="btn btn-outline-secondary" onclick="calcRoot()" type="button">√</button>
-                <button class="btn btn-outline-secondary" onclick="calcFact()" type="button">!</button>
-                <button class="btn btn-outline-secondary" onclick="calcDigit()" type="button">Сумма цифр</button>
-            </div>
+			<div class="input-group p-3">
+				<input type="text" class="form-control" id="obj1Input" placeholder="Введите объект 1...">
+				<input type="text" class="form-control" id="obj2Input" placeholder="Введите объект 2...">
+				<select class="custom-select" id="typeSelect">
+					<option selected value="int">Числа</option>
+					<option value="string">Строки</option>
+				</select>
+				<button class="btn btn-outline-secondary" onclick="calcSum()" type="button">+</button>
+                <button class="btn btn-outline-secondary" onclick="calcDif()" type="button">-</button>
+                <button class="btn btn-outline-secondary" onclick="calcMultiply()" type="button">*</button>
+                <button class="btn btn-outline-secondary" onclick="calcDiv()" type="button">/</button>
+			</div>
             <a id="responseField" class="m-3"></a>
         </div>
 	</body>
