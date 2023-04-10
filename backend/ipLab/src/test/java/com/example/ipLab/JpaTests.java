@@ -31,6 +31,7 @@ public class JpaTests {
         Assertions.assertEquals("example", storeService.getStore(store.getId()).getStoreName());
         storeService.updateStore(store.getId(), "newName");
         Assertions.assertEquals("newName", storeService.getStore(store.getId()).getStoreName());
+        Assertions.assertEquals("newName", storeService.deleteStore(store.getId()).getStoreName());
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -45,6 +46,8 @@ public class JpaTests {
         Customer c = customerService.addCustomer("1", "2", "3");
         Assertions.assertEquals("2", c.getFirstName());
         Assertions.assertEquals("2", customerService.getCustomer(c.getId()).getFirstName());
+        Assertions.assertEquals("1", customerService.updateCustomer(c.getId(), c.getLastName(), "1", c.getMiddleName()).getFirstName());
+        Assertions.assertEquals("1", customerService.deleteCustomer(c.getId()).getFirstName());
 
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
@@ -64,6 +67,8 @@ public class JpaTests {
         Assertions.assertEquals("product", p.getName());
 
         Assertions.assertEquals("product", storeService.getProduct(p.getId(), store.getId()).getName());
+        Assertions.assertEquals("productUpd", storeService.updateProduct(store.getId(), p.getId(), "productUpd").getName());
+        Assertions.assertEquals("productUpd", storeService.deleteProduct(store.getId(), p.getId()).getName());
 
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
@@ -88,6 +93,9 @@ public class JpaTests {
         Ordered order = orderService.addOrder(store, p, c, 5);
         Assertions.assertEquals("5", Integer.toString(order.getQuantity()));
         Assertions.assertEquals("5", Integer.toString(orderService.getOrder(order.getId()).getQuantity()));
+
+        Assertions.assertEquals("6", Integer.toString(orderService.updateOrder(order.getId(), 6).getQuantity()));
+        Assertions.assertEquals("6", Integer.toString(orderService.deleteOrder(order.getId()).getQuantity()));
 
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
