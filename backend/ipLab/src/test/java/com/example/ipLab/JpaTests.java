@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 public class JpaTests {
     @Autowired
@@ -108,6 +111,44 @@ public class JpaTests {
 
         Assertions.assertEquals("6", Integer.toString(orderService.updateOrder(order.getId(), 6).getQuantity()));
         Assertions.assertEquals("6", Integer.toString(orderService.deleteOrder(order.getId()).getQuantity()));
+
+        productService.deleteAllProducts();
+        orderService.deleteAllOrders();
+        customerService.deleteAllCustomers();
+        storeService.deleteAllStores();
+    }
+    @Test
+    void FilterOrderTest(){
+        productService.deleteAllProducts();
+        orderService.deleteAllOrders();
+        customerService.deleteAllCustomers();
+        storeService.deleteAllStores();
+
+
+        Store store = storeService.addStore("example");
+        Assertions.assertEquals("example", store.getStoreName());
+
+        Product p1 = productService.addProduct("product");
+        Product p2 = productService.addProduct("product2");
+        storeService.addProduct(store.getId(), p1.getId());
+        Assertions.assertEquals("product", p1.getName());
+
+        storeService.addProduct(store.getId(), p2.getId());
+        Assertions.assertEquals("product2", p2.getName());
+
+        Customer c = customerService.addCustomer("1", "2", "3");
+        Assertions.assertEquals("2", c.getFirstName());
+
+        Ordered order1 = orderService.addOrder(store, p1, c, 0);
+        Ordered order2 = orderService.addOrder(store, p2, c, 6);
+        Ordered order3 = orderService.addOrder(store, p1, c, 2);
+        Ordered order4 = orderService.addOrder(store, p2, c, 2);
+        Ordered order5 = orderService.addOrder(store, p1, c, 3);
+        List<Ordered> expectedResult = new ArrayList<>();
+        expectedResult.add(order3);
+        expectedResult.add(order5);
+        orderService.getAllOrders();
+        Assertions.assertEquals(expectedResult, orderService.getOrdersWithProduct(p1.getId(), 1, 5));
 
         productService.deleteAllProducts();
         orderService.deleteAllOrders();

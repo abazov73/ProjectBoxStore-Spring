@@ -8,15 +8,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderService {
     @PersistenceContext
     private EntityManager em;
+
+    private ProductService productService;
+
+    public OrderService(ProductService productService){
+        this.productService = productService;
+    }
 
     @Transactional
     public Ordered addOrder(Store store, Product product, Customer customer, int quantity){
@@ -36,10 +44,18 @@ public class OrderService {
         }
         return order;
     }
+    @Transactional
+    public List<Ordered> getOrdersWithProduct(Long productId, int minQuantity, int maxQuantity){
+        return em.createQuery("SELECT o FROM Ordered o WHERE o.product.id = ?1 AND o.quantity >= ?2 AND o.quantity <= ?3",Ordered.class)
+                .setParameter(1, productId)
+                .setParameter(2, minQuantity)
+                .setParameter(3, maxQuantity)
+                .getResultList();
+    }
 
     @Transactional
     public List<Ordered> getAllOrders(){
-        return em.createQuery("get p from Ordered p", Ordered.class).getResultList();
+        return em.createQuery("SELECT o FROM Ordered o", Ordered.class).getResultList();
     }
 
     @Transactional
@@ -59,7 +75,7 @@ public class OrderService {
     }
     @Transactional
     public void deleteAllOrders(){
-        em.createQuery("delete from Ordered");
+        em.createQuery("delete from Ordered").executeUpdate();
     }
 
     //product section

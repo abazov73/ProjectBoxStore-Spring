@@ -42,6 +42,9 @@ public class Ordered {
 
     public void setProduct(Product product) {
         this.product = product;
+        if (!product.getOrders().contains(this)){
+            product.AddOrdered(this);
+        }
     }
 
     public int getQuantity() {
@@ -54,10 +57,16 @@ public class Ordered {
 
     public void setStore(Store store) {
         this.store = store;
+        if (!store.getOrders().contains(this)){
+            store.AddOrdered(this);
+        }
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        if (!customer.getOrders().contains(this)){
+            customer.AddOrdered(this);
+        }
     }
 
     @Override

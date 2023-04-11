@@ -57,6 +57,9 @@ public class Product {
 
     public void setStore(Store store) {
         this.store = store;
+        if (!store.getProducts().contains(this)){
+            store.AddProduct(this);
+        }
     }
 
     @Override

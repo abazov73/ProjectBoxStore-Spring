@@ -38,7 +38,7 @@ public class ProductService {
 
     @Transactional
     public List<Product> getAllProducts(){
-        return em.createQuery("get p from Product p", Product.class).getResultList();
+        return em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
     }
 
     @Transactional
@@ -67,6 +67,6 @@ public class ProductService {
     }
     @Transactional
     public void deleteAllProducts(){
-        em.createQuery("delete from Customer");
+        em.createQuery("delete from Product");
     }
 }

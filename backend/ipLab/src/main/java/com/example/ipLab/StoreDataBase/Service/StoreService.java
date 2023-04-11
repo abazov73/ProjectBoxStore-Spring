@@ -43,7 +43,7 @@ public class StoreService {
 
     @Transactional
     public List<Store> getAllStores(){
-        return em.createQuery("get s from Store s", Store.class).getResultList();
+        return em.createQuery("SELECT s FROM Store s", Store.class).getResultList();
     }
 
     @Transactional

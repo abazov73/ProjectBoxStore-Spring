@@ -36,7 +36,7 @@ public class CustomerService {
 
     @Transactional
     public List<Customer> getAllCustomers(){
-        return em.createQuery("get c from Customer c", Customer.class).getResultList();
+        return em.createQuery("SELECT c from Customer c", Customer.class).getResultList();
     }
 
     @Transactional
