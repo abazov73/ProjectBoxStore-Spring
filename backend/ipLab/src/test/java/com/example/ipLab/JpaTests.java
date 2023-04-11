@@ -6,6 +6,7 @@ import com.example.ipLab.StoreDataBase.Model.Product;
 import com.example.ipLab.StoreDataBase.Model.Store;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.OrderService;
+import com.example.ipLab.StoreDataBase.Service.ProductService;
 import com.example.ipLab.StoreDataBase.Service.StoreService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,11 @@ public class JpaTests {
     CustomerService customerService;
     @Autowired
     StoreService storeService;
+    @Autowired
+    ProductService productService;
     @Test
     void testStore(){
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -32,6 +36,7 @@ public class JpaTests {
         storeService.updateStore(store.getId(), "newName");
         Assertions.assertEquals("newName", storeService.getStore(store.getId()).getStoreName());
         Assertions.assertEquals("newName", storeService.deleteStore(store.getId()).getStoreName());
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -39,6 +44,7 @@ public class JpaTests {
 
     @Test
     void testCustomer(){
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -49,6 +55,7 @@ public class JpaTests {
         Assertions.assertEquals("1", customerService.updateCustomer(c.getId(), c.getLastName(), "1", c.getMiddleName()).getFirstName());
         Assertions.assertEquals("1", customerService.deleteCustomer(c.getId()).getFirstName());
 
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -56,6 +63,7 @@ public class JpaTests {
 
     @Test
     void testProduct(){
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -63,13 +71,15 @@ public class JpaTests {
         Store store = storeService.addStore("example");
         Assertions.assertEquals("example", store.getStoreName());
 
-        Product p = storeService.addProduct(store.getId(), "product");
+        Product p = productService.addProduct("product");
         Assertions.assertEquals("product", p.getName());
 
-        Assertions.assertEquals("product", storeService.getProduct(p.getId(), store.getId()).getName());
-        Assertions.assertEquals("productUpd", storeService.updateProduct(store.getId(), p.getId(), "productUpd").getName());
-        Assertions.assertEquals("productUpd", storeService.deleteProduct(store.getId(), p.getId()).getName());
+        Assertions.assertEquals("product", storeService.addProduct(store.getId(), p.getId()).getName());
+        Assertions.assertEquals("product", storeService.getProductFromStore(p.getId(), store.getId()).getName());
+        Assertions.assertEquals("productUpd", productService.updateProduct(p.getId(), "productUpd").getName());
+        Assertions.assertEquals("productUpd", storeService.deleteProductFromStore(store.getId(), p.getId()).getName());
 
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -77,6 +87,7 @@ public class JpaTests {
 
     @Test
     void testOrder(){
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();
@@ -84,7 +95,8 @@ public class JpaTests {
         Store store = storeService.addStore("example");
         Assertions.assertEquals("example", store.getStoreName());
 
-        Product p = storeService.addProduct(store.getId(), "product");
+        Product p = productService.addProduct("product");
+        storeService.addProduct(store.getId(), p.getId());
         Assertions.assertEquals("product", p.getName());
 
         Customer c = customerService.addCustomer("1", "2", "3");
@@ -97,6 +109,7 @@ public class JpaTests {
         Assertions.assertEquals("6", Integer.toString(orderService.updateOrder(order.getId(), 6).getQuantity()));
         Assertions.assertEquals("6", Integer.toString(orderService.deleteOrder(order.getId()).getQuantity()));
 
+        productService.deleteAllProducts();
         orderService.deleteAllOrders();
         customerService.deleteAllCustomers();
         storeService.deleteAllStores();

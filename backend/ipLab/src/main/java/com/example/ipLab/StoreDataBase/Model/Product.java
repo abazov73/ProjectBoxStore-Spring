@@ -28,6 +28,12 @@ public class Product {
         this.name = name;
         this.orders = new ArrayList<Ordered>();
     }
+    public void AddOrdered(Ordered ordered){
+        this.orders.add(ordered);
+        if (ordered.getProduct() != this){
+            ordered.setProduct(this);
+        }
+    }
 
     public Long getId() {
         return id;

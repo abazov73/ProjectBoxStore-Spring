@@ -1,5 +1,6 @@
 package com.example.ipLab.StoreDataBase.Model;
 
+import com.example.ipLab.StoreDataBase.Service.ProductService;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -38,6 +39,18 @@ public class Store {
 
     public List<Product> getProducts() {
         return products;
+    }
+    public void AddProduct(Product product){
+        this.products.add(product);
+        if (product.getStore() != this){
+            product.setStore(this);
+        }
+    }
+    public void AddOrdered(Ordered ordered){
+        this.orders.add(ordered);
+        if (ordered.getStore() != this){
+            ordered.setStore(this);
+        }
     }
 
     public void setStoreName(String storeName) {

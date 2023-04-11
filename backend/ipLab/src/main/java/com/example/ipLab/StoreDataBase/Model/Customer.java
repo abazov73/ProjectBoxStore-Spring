@@ -19,7 +19,12 @@ public class Customer {
     private String middleName;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Ordered> orders;
-
+    public void AddOrdered(Ordered ordered){
+        this.orders.add(ordered);
+        if (ordered.getCustomer() != this){
+            ordered.setCustomer(this);
+        }
+    }
     public Customer(){}
 
     public Customer(String lastName, String firstName, String middleName){

@@ -16,6 +16,11 @@ import java.util.List;
 public class StoreService {
     @PersistenceContext
     private EntityManager em;
+    private ProductService productService;
+
+    public StoreService(ProductService productService){
+        this.productService = productService;
+    }
 
     @Transactional
     public Store addStore(String storeName){
@@ -64,69 +69,45 @@ public class StoreService {
 
     //product section
     @Transactional
-    public Product addProduct(Long storeId, String productName){
-        if (!StringUtils.hasText(productName)){
-            throw new IllegalArgumentException("Product name is null or empty");
-        }
-        Store store = em.find(Store.class, storeId);
-        if (store == null){
-            throw new EntityNotFoundException(String.format("Store with id = %s isn't found", storeId));
-        }
-        final Product product = new Product(productName);
-        em.persist(product);
-        store.getProducts().add(product);
-        product.setStore(store);
+    public Product addProduct(Long storeId, Long productId){
+        Store store = getStore(storeId);
+        Product product = productService.getProduct(productId);
+        store.AddProduct(product);
+        em.persist(store);
         return product;
     }
 
     @Transactional()
-    public Product getProduct(Long productId, Long storeId){
-        Store store = em.find(Store.class, storeId);
+    public Product getProductFromStore(Long productId, Long storeId){
+        Store store = getStore(storeId);
         var prFind = store.getProducts().stream().filter(pr -> pr.getId().equals(productId)).findFirst();
         if (prFind.isPresent()) {
             return prFind.get();
         }
-        else throw new EntityNotFoundException(String.format("Product with id = %s isn't found", productId));
+        else throw new EntityNotFoundException(String.format("Product with id = %s isn't found in store with id = %s", productId, storeId));
     }
 
     @Transactional
-    public List<Product> getAllProducts(Long storeId){
-        return em.find(Store.class, storeId).getProducts();
+    public List<Product> getAllProductsFromStore(Long storeId) {
+        Store store = getStore(storeId);
+        return store.getProducts();
     }
 
     @Transactional
-    public Product updateProduct(Long storeId, Long productId, String productName){
-        if (!StringUtils.hasText(productName)){
-            throw new IllegalArgumentException("Product name is null or empty");
-        }
-        final Product product = getProduct(productId, storeId);
-        if (product == null){
-            throw new EntityNotFoundException(String.format("Product with id = %s isn't found", productId));
-        }
-        product.setName(productName);
-        return em.merge(product);
-    }
-
-    @Transactional
-    public Product deleteProduct(Long storeId, Long productId){
-        final Product product = getProduct(productId, storeId);
-        if (product == null){
-            throw new EntityNotFoundException(String.format("Product with id = %s isn't found", productId));
-        }
-        Store store = product.getStore();
-        if (store != null) store.getProducts().remove(product);
+    public Product deleteProductFromStore(Long storeId, Long productId){
+        Store store = getStore(storeId);
+        Product product = getProductFromStore(productId, storeId);
+        store.getProducts().remove(product);
         em.remove(product);
         return product;
     }
     @Transactional
     public void deleteAllProducts(Long storeId){
-        Store store = em.find(Store.class, storeId);
-        if (store == null){
-            throw new EntityNotFoundException(String.format("Store with id = %s isn't found", storeId));
-        }
+        Store store = getStore(storeId);
         List<Product> storeProducts = store.getProducts();
         for (Product pr:
              storeProducts) {
+            pr.setStore(null);
             store.getProducts().remove(pr);
             em.remove(pr);
         }

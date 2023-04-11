@@ -20,10 +20,7 @@ public class Ordered {
     @Column
     private int quantity;
     public Ordered(){}
-    public Ordered(Store store, Product product, Customer customer, int quantity){
-        this.store = store;
-        this.product = product;
-        this.customer = customer;
+    public Ordered(int quantity){
         this.quantity = quantity;
     }
 
@@ -53,6 +50,14 @@ public class Ordered {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

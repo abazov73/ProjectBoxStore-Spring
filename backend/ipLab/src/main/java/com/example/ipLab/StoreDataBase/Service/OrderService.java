@@ -20,10 +20,10 @@ public class OrderService {
 
     @Transactional
     public Ordered addOrder(Store store, Product product, Customer customer, int quantity){
-        final Ordered order = new Ordered(store, product, customer, quantity);
-        order.getStore().getOrders().add(order);
-        order.getCustomer().getOrders().add(order);
-        order.getProduct().getOrders().add(order);
+        final Ordered order = new Ordered(quantity);
+        product.AddOrdered(order);
+        customer.AddOrdered(order);
+        store.AddOrdered(order);
         em.persist(order);
         return order;
     }
