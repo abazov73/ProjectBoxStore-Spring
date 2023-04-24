@@ -1,9 +1,12 @@
 package com.example.ipLab.StoreDataBase.Service;
 
+import com.example.ipLab.StoreDataBase.Exceptions.ProductNotFoundException;
 import com.example.ipLab.StoreDataBase.Model.Customer;
 import com.example.ipLab.StoreDataBase.Model.Ordered;
 import com.example.ipLab.StoreDataBase.Model.Product;
 import com.example.ipLab.StoreDataBase.Model.Store;
+import com.example.ipLab.StoreDataBase.Repositories.ProductRepository;
+import com.example.ipLab.StoreDataBase.util.validation.ValidatorUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -14,59 +17,49 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 @Service
 public class ProductService {
-    @PersistenceContext
-    private EntityManager em;
+    private final ProductRepository productRepository;
+    private final ValidatorUtil validatorUtil;
+
+    public ProductService(ProductRepository productRepository, ValidatorUtil validatorUtil){
+        this.productRepository = productRepository;
+        this.validatorUtil = validatorUtil;
+    }
     @Transactional
     public Product addProduct(String productName){
-        if (!StringUtils.hasText(productName)){
-            throw new IllegalArgumentException("Product name is null or empty");
-        }
         final Product product = new Product(productName);
-        em.persist(product);
+        validatorUtil.validate(product);
+        productRepository.save(product);
         return product;
     }
 
     @Transactional()
     public Product getProduct(Long id){
-        Product product = em.find(Product.class, id);
-        if (product == null){
-            throw new EntityNotFoundException(String.format("Product with id = %s isn't found", id));
-        }
-        em.persist(product);
-        return product;
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Transactional
     public List<Product> getAllProducts(){
-        return em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
+        return productRepository.findAll();
     }
 
     @Transactional
     public Product updateProduct(Long id, String productName){
-        if (!StringUtils.hasText(productName)){
-            throw new IllegalArgumentException("Product name is null or empty");
-        }
         final Product product = getProduct(id);
-        if (product == null){
-            throw new EntityNotFoundException(String.format("Product with id = %s isn't found", id));
-        }
         product.setName(productName);
-        return em.merge(product);
+        validatorUtil.validate(product);
+        return productRepository.save(product);
     }
 
     @Transactional
     public Product deleteProduct(Long id){
         final Product product = getProduct(id);
-        if (product == null){
-            throw new EntityNotFoundException(String.format("Product with id = %s isn't found", id));
-        }
         Store store = product.getStore();
         if (store != null) store.getProducts().remove(product);
-        em.remove(product);
+        productRepository.delete(product);
         return product;
     }
     @Transactional
     public void deleteAllProducts(){
-        em.createQuery("delete from Product");
+        productRepository.deleteAll();
     }
 }

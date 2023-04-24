@@ -1,6 +1,9 @@
 package com.example.ipLab.StoreDataBase.Service;
 
+import com.example.ipLab.StoreDataBase.Exceptions.CustomerNotFoundException;
 import com.example.ipLab.StoreDataBase.Model.Customer;
+import com.example.ipLab.StoreDataBase.Repositories.CustomerRepository;
+import com.example.ipLab.StoreDataBase.util.validation.ValidatorUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -12,53 +15,50 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    @PersistenceContext
-    private EntityManager em;
+    private final CustomerRepository customerRepository;
+    private final ValidatorUtil validatorUtil;
+
+    public CustomerService(CustomerRepository customerRepository,
+                           ValidatorUtil validatorUtil){
+        this.customerRepository = customerRepository;
+        this.validatorUtil = validatorUtil;
+    }
 
     @Transactional
     public Customer addCustomer(String customerLastName, String customerFirstName, String customerMiddleName){
-        if (!StringUtils.hasText(customerLastName) || !StringUtils.hasText(customerFirstName) || !StringUtils.hasText(customerMiddleName)){
-            throw new IllegalArgumentException("Customer name is null or empty");
-        }
-        final Customer customer = new Customer(customerLastName, customerFirstName, customerMiddleName);
-        em.persist(customer);
-        return customer;
+        Customer customer = new Customer(customerLastName, customerFirstName, customerMiddleName);
+        validatorUtil.validate(customer);
+        return customerRepository.save(customer);
     }
 
     @Transactional()
     public Customer getCustomer(Long id){
-        Customer customer = em.find(Customer.class, id);
-        if (customer == null){
-            throw new EntityNotFoundException(String.format("Customer with id = %s isn't found", id));
-        }
-        return customer;
+        return customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
     @Transactional
     public List<Customer> getAllCustomers(){
-        return em.createQuery("SELECT c from Customer c", Customer.class).getResultList();
+        return customerRepository.findAll();
     }
 
     @Transactional
     public Customer updateCustomer(Long id, String customerLastName, String customerFirstName, String customerMiddleName){
-        if (!StringUtils.hasText(customerLastName) || !StringUtils.hasText(customerFirstName) || !StringUtils.hasText(customerMiddleName)){
-            throw new IllegalArgumentException("Customer name is null or empty");
-        }
-        final Customer customer = getCustomer(id);
+        Customer customer = getCustomer(id);
         customer.setLastName(customerLastName);
         customer.setFirstName(customerFirstName);
         customer.setMiddleName(customerMiddleName);
-        return em.merge(customer);
+        validatorUtil.validate(customer);
+        return customerRepository.save(customer);
     }
 
     @Transactional
     public Customer deleteCustomer(Long id){
-        final Customer customer = getCustomer(id);
-        em.remove(customer);
+        Customer customer = getCustomer(id);
+        customerRepository.delete(customer);
         return customer;
     }
     @Transactional
     public void deleteAllCustomers(){
-        em.createQuery("delete from Customer");
+        customerRepository.deleteAll();
     }
 }

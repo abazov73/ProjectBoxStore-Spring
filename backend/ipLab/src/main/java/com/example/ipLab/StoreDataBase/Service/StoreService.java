@@ -1,7 +1,10 @@
 package com.example.ipLab.StoreDataBase.Service;
 
+import com.example.ipLab.StoreDataBase.Exceptions.StoreNotFoundException;
 import com.example.ipLab.StoreDataBase.Model.Product;
 import com.example.ipLab.StoreDataBase.Model.Store;
+import com.example.ipLab.StoreDataBase.Repositories.StoreRepository;
+import com.example.ipLab.StoreDataBase.util.validation.ValidatorUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
@@ -14,57 +17,51 @@ import java.util.List;
 
 @Service
 public class StoreService {
-    @PersistenceContext
-    private EntityManager em;
+    private final StoreRepository storeRepository;
+    private final ValidatorUtil validatorUtil;
     private ProductService productService;
 
-    public StoreService(ProductService productService){
+    public StoreService(StoreRepository storeRepository, ValidatorUtil validatorUtil, ProductService productService){
+        this.storeRepository = storeRepository;
+        this.validatorUtil = validatorUtil;
         this.productService = productService;
     }
 
     @Transactional
     public Store addStore(String storeName){
-        if (!StringUtils.hasText(storeName)){
-            throw new IllegalArgumentException("Store name is null or empty");
-        }
         final Store store = new Store(storeName);
-        em.persist(store);
+        validatorUtil.validate(store);
+        storeRepository.save(store);
         return store;
     }
 
     @Transactional()
     public Store getStore(Long id){
-        Store store = em.find(Store.class, id);
-        if (store == null){
-            throw new EntityNotFoundException(String.format("Store with id = %s isn't found", id));
-        }
-        return store;
+        return storeRepository.findById(id).orElseThrow(() -> new StoreNotFoundException(id));
     }
 
     @Transactional
     public List<Store> getAllStores(){
-        return em.createQuery("SELECT s FROM Store s", Store.class).getResultList();
+        return storeRepository.findAll();
     }
 
     @Transactional
     public Store updateStore(Long id, String storeName){
-        if (!StringUtils.hasText(storeName)){
-            throw new IllegalArgumentException("Store name is null or empty");
-        }
         final Store store = getStore(id);
         store.setStoreName(storeName);
-        return em.merge(store);
+        validatorUtil.validate(store);
+        return storeRepository.save(store);
     }
 
     @Transactional
     public Store deleteStore(Long id){
         final Store store = getStore(id);
-        em.remove(store);
+        storeRepository.delete(store);
         return store;
     }
     @Transactional
     public void deleteAllStores(){
-        em.createQuery("delete from Store");
+        storeRepository.deleteAll();
     }
 
     //product section
@@ -73,7 +70,7 @@ public class StoreService {
         Store store = getStore(storeId);
         Product product = productService.getProduct(productId);
         store.AddProduct(product);
-        em.persist(store);
+        storeRepository.save(store);
         return product;
     }
 
@@ -98,7 +95,7 @@ public class StoreService {
         Store store = getStore(storeId);
         Product product = getProductFromStore(productId, storeId);
         store.getProducts().remove(product);
-        em.remove(product);
+        product.setStore(null);
         return product;
     }
     @Transactional
@@ -109,7 +106,6 @@ public class StoreService {
              storeProducts) {
             pr.setStore(null);
             store.getProducts().remove(pr);
-            em.remove(pr);
         }
     }
 }

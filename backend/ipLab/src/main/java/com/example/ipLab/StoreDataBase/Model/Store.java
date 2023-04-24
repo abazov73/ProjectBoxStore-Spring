@@ -2,6 +2,7 @@ package com.example.ipLab.StoreDataBase.Model;
 
 import com.example.ipLab.StoreDataBase.Service.ProductService;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,13 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
+    @NotBlank(message = "Store's name can't be empty")
     private String storeName;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.ALL)
-    private List<Ordered> orders;
     public Store(){}
     public Store(String storeName){
         this.storeName = storeName;
-        this.orders = new ArrayList<>();
         this.products = new ArrayList<>();
     }
 
@@ -33,10 +32,6 @@ public class Store {
         return storeName;
     }
 
-    public List<Ordered> getOrders() {
-        return orders;
-    }
-
     public List<Product> getProducts() {
         return products;
     }
@@ -44,12 +39,6 @@ public class Store {
         this.products.add(product);
         if (product.getStore() != this){
             product.setStore(this);
-        }
-    }
-    public void AddOrdered(Ordered ordered){
-        this.orders.add(ordered);
-        if (ordered.getStore() != this){
-            ordered.setStore(this);
         }
     }
 

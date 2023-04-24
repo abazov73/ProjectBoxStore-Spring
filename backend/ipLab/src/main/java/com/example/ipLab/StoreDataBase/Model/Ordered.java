@@ -9,9 +9,6 @@ public class Ordered {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="store_fk")
-    private Store store;
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="customer_fk")
     private Customer customer;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,9 +25,6 @@ public class Ordered {
         return id;
     }
 
-    public Store getStore() {
-        return store;
-    }
 
     public Customer getCustomer() {
         return customer;
@@ -53,13 +47,6 @@ public class Ordered {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-        if (!store.getOrders().contains(this)){
-            store.AddOrdered(this);
-        }
     }
 
     public void setCustomer(Customer customer) {

@@ -1,6 +1,7 @@
 package com.example.ipLab.StoreDataBase.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
+    @NotBlank(message = "Product's name can't be empty")
     private String name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_fk")

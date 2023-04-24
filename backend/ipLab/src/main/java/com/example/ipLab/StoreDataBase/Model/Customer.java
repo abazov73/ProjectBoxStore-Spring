@@ -1,6 +1,7 @@
 package com.example.ipLab.StoreDataBase.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
+    @NotBlank(message = "Customer's last name can't be empty")
     private String lastName;
     @Column
+    @NotBlank(message = "Customer's first name can't be empty")
     private String firstName;
     @Column
+    @NotBlank(message = "Customer's middle name can't be empty")
     private String middleName;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Ordered> orders;
