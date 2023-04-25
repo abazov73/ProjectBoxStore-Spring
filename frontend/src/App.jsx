@@ -1,7 +1,10 @@
 import { useRoutes, Outlet, BrowserRouter } from 'react-router-dom';
 import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import CustomerPage from './components/pages/customerPage'
+import CustomerPage from './components/pages/customerPage';
+import StorePage from './components/pages/storePage';
+import ProductPage from './components/pages/productPage';
+import OrderPage from './components/pages/orderPage';
+import AddToStorePage from './components/pages/addToStorePage'
 import './styleSite.css';
 
 function Router(props) {
@@ -12,9 +15,10 @@ export default function App() {
   const routes = [
     { index: true, element: <CustomerPage/> },
     { path: 'customer', element: <CustomerPage/>, label:'Покупатели'},
-    // { path: 'shop', element: <Shop/>, label: 'Магазины' },
-    // { path: 'product', element: <Product/>, label: 'Товары'},
-    // { path: 'order', element: <Order/>, label: 'Заказы'}
+    { path: 'store', element: <StorePage/>, label: 'Магазины' },
+    { path: 'product', element: <ProductPage/>, label: 'Товары' },
+    { path: 'order', element: <OrderPage/>, label: 'Заказы'},
+    { path: 'addToStore', element: <AddToStorePage/>, label: 'Доставка'}
   ];
   const links = routes.filter(route => route.hasOwnProperty('label'));
   const rootRoute = [
@@ -29,7 +33,6 @@ export default function App() {
         <div className="container-fluid">
           <Outlet />
         </div>
-        <Footer/>
       </>
     );
   }

@@ -1,6 +1,5 @@
 package com.example.ipLab.StoreDataBase.Model;
 
-import com.example.ipLab.StoreDataBase.Service.ProductService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -18,7 +17,9 @@ public class Store {
     private String storeName;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
-    public Store(){}
+    public Store(){
+        this.products = new ArrayList<>();
+    }
     public Store(String storeName){
         this.storeName = storeName;
         this.products = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Store {
              products) {
             product.removeStore();
         }
-        products = null;
+        products = new ArrayList<>();
     }
 
     public void setStoreName(String storeName) {

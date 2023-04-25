@@ -7,12 +7,14 @@ public class OrderedDTO {
     public final int quantity;
     public final String productName;
     public final String customerFIO;
+    public final String storeName;
 
     public OrderedDTO(Ordered ordered){
         this.id = ordered.getId();
         this.quantity = ordered.getQuantity();
         this.productName = ordered.getProduct().getName();
-        this.customerFIO = ordered.getCustomer().getLastName() + ordered.getCustomer().getFirstName() + ordered.getCustomer().getMiddleName();
+        this.storeName = ordered.getProduct().getStore().getStoreName();
+        this.customerFIO = ordered.getCustomer().getLastName() + " " + ordered.getCustomer().getFirstName() + " " + ordered.getCustomer().getMiddleName();
     }
 
     public Long getId() {
@@ -29,5 +31,9 @@ public class OrderedDTO {
 
     public String getCustomerFIO() {
         return customerFIO;
+    }
+
+    public String getStoreName() {
+        return storeName;
     }
 }

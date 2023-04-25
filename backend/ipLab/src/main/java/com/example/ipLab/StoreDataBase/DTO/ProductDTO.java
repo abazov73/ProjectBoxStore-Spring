@@ -6,13 +6,13 @@ import java.util.List;
 
 public class ProductDTO {
     public final Long id;
-    public final String name;
+    public final String productName;
     public final String storeName;
 
     public ProductDTO(Product product){
         this.id = product.getId();
-        this.name = product.getName();
-        this.storeName = product.getStore().getStoreName();
+        this.productName = product.getName();
+        this.storeName = product.getStore() == null ? null : product.getStore().getStoreName();
     }
 
     public Long getId() {
@@ -20,7 +20,7 @@ public class ProductDTO {
     }
 
     public String getName() {
-        return name;
+        return productName;
     }
 
     public String getStoreName() {

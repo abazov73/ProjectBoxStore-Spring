@@ -10,7 +10,7 @@ export default function Header(props){
                         <img src="logo.png" alt="*" width="60" height="60" className="align-text-top"></img>
                     </a>
                     <div id="logoName">
-                        <a href="mainPage">boxStore</a>
+                        <a href="customer">boxStore</a>
                     </div>
                 </div>
                 <nav className="navbar navbar-expand-md">

@@ -28,6 +28,21 @@ public class ProductController {
                 .toList();
     }
 
+    //сделать запрос + пагинация
+    @GetMapping("/getWithStores")
+    public List<ProductDTO> getProductsWithStores(){
+        return  productService.getAllProducts().stream().filter(prod -> prod.getStore() != null)
+                .map(ProductDTO::new)
+                .toList();
+    }
+
+    @GetMapping("/getWithoutStores")
+    public List<ProductDTO> getProductsWithoutStores(){
+        return  productService.getAllProducts().stream().filter(prod -> prod.getStore() == null)
+                .map(ProductDTO::new)
+                .toList();
+    }
+
     @PostMapping
     public ProductDTO createProduct(@RequestParam("productName") String productName){
         final Product product = productService.addProduct(productName);

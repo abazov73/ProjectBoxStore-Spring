@@ -38,8 +38,10 @@ public class Product {
     }
     @PreRemove
     public void removeStore(){
-        this.store.getProducts().remove(this);
-        this.store = null;
+        if (this.store != null) {
+            this.store.getProducts().remove(this);
+            this.store = null;
+        }
         removeOrders();
     }
 

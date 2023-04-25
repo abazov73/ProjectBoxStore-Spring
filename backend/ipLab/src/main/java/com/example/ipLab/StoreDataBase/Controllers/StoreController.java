@@ -44,9 +44,9 @@ public class StoreController {
         return new StoreDTO(storeService.updateStore(id, storeName));
     }
 
-    @PutMapping("/{storeId}-{productId}")
-    public ProductDTO addProduct(@PathVariable Long storeId,
-                                 @PathVariable Long productId){
+    @PutMapping("/add")
+    public ProductDTO addProduct(@RequestParam("storeId") Long storeId,
+                                 @RequestParam("productId") Long productId){
         return new ProductDTO(storeService.addProduct(storeId, productId));
     }
 
