@@ -41,6 +41,14 @@ public class Store {
             product.setStore(this);
         }
     }
+    @PreRemove
+    public void removeProducts(){
+        for (var product:
+             products) {
+            product.removeStore();
+        }
+        products = null;
+    }
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;

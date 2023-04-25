@@ -61,6 +61,10 @@ public class StoreService {
     }
     @Transactional
     public void deleteAllStores(){
+        //for (var store:
+        //     getAllStores()) {
+        //    store.removeProducts();
+        //}
         storeRepository.deleteAll();
     }
 
@@ -90,22 +94,22 @@ public class StoreService {
         return store.getProducts();
     }
 
-    @Transactional
-    public Product deleteProductFromStore(Long storeId, Long productId){
-        Store store = getStore(storeId);
-        Product product = getProductFromStore(productId, storeId);
-        store.getProducts().remove(product);
-        product.setStore(null);
-        return product;
-    }
-    @Transactional
-    public void deleteAllProducts(Long storeId){
-        Store store = getStore(storeId);
-        List<Product> storeProducts = store.getProducts();
-        for (Product pr:
-             storeProducts) {
-            pr.setStore(null);
-            store.getProducts().remove(pr);
-        }
-    }
+//    @Transactional
+//    public Product deleteProductFromStore(Long storeId, Long productId){
+//        Store store = getStore(storeId);
+//        Product product = getProductFromStore(productId, storeId);
+//        store.getProducts().remove(product);
+//        product.setStore(null);
+//        return product;
+//    }
+//    @Transactional
+//    public void deleteAllProducts(Long storeId){
+//        Store store = getStore(storeId);
+//        List<Product> storeProducts = store.getProducts();
+//        for (Product pr:
+//             storeProducts) {
+//            pr.setStore(null);
+//            store.getProducts().remove(pr);
+//        }
+//    }
 }

@@ -29,7 +29,17 @@ public class Customer {
             ordered.setCustomer(this);
         }
     }
-    public Customer(){}
+    @PreRemove
+    public void removeOrders(){
+        for (var order:
+             orders) {
+            order.removeCustomer();
+        }
+        orders = null;
+    }
+    public Customer(){
+        this.orders = new ArrayList<>();
+    }
 
     public Customer(String lastName, String firstName, String middleName){
         this.lastName = lastName;

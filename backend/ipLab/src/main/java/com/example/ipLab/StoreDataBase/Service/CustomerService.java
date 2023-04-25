@@ -59,6 +59,10 @@ public class CustomerService {
     }
     @Transactional
     public void deleteAllCustomers(){
+        //for (var customer:
+        //     getAllCustomers()) {
+        //    customer.removeOrders();
+        //}
         customerRepository.deleteAll();
     }
 }

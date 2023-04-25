@@ -5,10 +5,12 @@ import com.example.ipLab.StoreDataBase.Model.Ordered;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.OrderService;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RestController
+@RequestMapping("/order")
 public class OrderedController {
     private final OrderService orderedService;
     private final ProductService productService;

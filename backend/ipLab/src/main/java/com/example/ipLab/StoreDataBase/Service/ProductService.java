@@ -60,6 +60,11 @@ public class ProductService {
     }
     @Transactional
     public void deleteAllProducts(){
+        //for (var product:
+        //     getAllProducts()) {
+        //    product.removeStore();
+        //    product.removeOrders();
+        //}
         productRepository.deleteAll();
     }
 }

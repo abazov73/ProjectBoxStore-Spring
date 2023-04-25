@@ -36,6 +36,19 @@ public class Product {
             ordered.setProduct(this);
         }
     }
+    @PreRemove
+    public void removeStore(){
+        this.store.getProducts().remove(this);
+        this.store = null;
+        removeOrders();
+    }
+
+    public void removeOrders(){
+        for (var order:
+             orders) {
+            order.removeProduct();
+        }
+    }
 
     public Long getId() {
         return id;

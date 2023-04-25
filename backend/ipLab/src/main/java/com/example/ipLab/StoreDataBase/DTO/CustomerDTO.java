@@ -6,17 +6,15 @@ import java.util.List;
 
 public class CustomerDTO {
     public final Long id;
-    public final String lastname;
-    public final String firstname;
+    public final String lastName;
+    public final String firstName;
     public final String middleName;
-    public final List<OrderedDTO> orders;
 
     public CustomerDTO(Customer customer){
         this.id = customer.getId();
-        this.lastname = customer.getLastName();
-        this.firstname = customer.getFirstName();
+        this.lastName = customer.getLastName();
+        this.firstName = customer.getFirstName();
         this.middleName = customer.getMiddleName();
-        this.orders = customer.getOrders().stream().map(OrderedDTO::new).toList();
     }
 
     public Long getId() {
@@ -24,18 +22,14 @@ public class CustomerDTO {
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
     public String getMiddleName() {
         return middleName;
-    }
-
-    public List<OrderedDTO> getOrders() {
-        return orders;
     }
 }

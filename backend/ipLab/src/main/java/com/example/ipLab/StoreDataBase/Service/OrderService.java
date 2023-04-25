@@ -69,6 +69,11 @@ public class OrderService {
     }
     @Transactional
     public void deleteAllOrders(){
+        //for (var order:
+        //     getAllOrders()) {
+        //    order.removeProduct();
+        //    order.removeCustomer();
+        //}
         orderedRepository.deleteAll();
     }
 

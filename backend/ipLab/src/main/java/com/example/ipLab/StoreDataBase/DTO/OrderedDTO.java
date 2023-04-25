@@ -5,14 +5,14 @@ import com.example.ipLab.StoreDataBase.Model.Ordered;
 public class OrderedDTO {
     public final Long id;
     public final int quantity;
-    public final ProductDTO product;
-    public final CustomerDTO customer;
+    public final String productName;
+    public final String customerFIO;
 
     public OrderedDTO(Ordered ordered){
         this.id = ordered.getId();
         this.quantity = ordered.getQuantity();
-        this.product = new ProductDTO(ordered.getProduct());
-        this.customer = new CustomerDTO(ordered.getCustomer());
+        this.productName = ordered.getProduct().getName();
+        this.customerFIO = ordered.getCustomer().getLastName() + ordered.getCustomer().getFirstName() + ordered.getCustomer().getMiddleName();
     }
 
     public Long getId() {
@@ -23,11 +23,11 @@ public class OrderedDTO {
         return quantity;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public String getProductName() {
+        return productName;
     }
 
-    public CustomerDTO getCustomer() {
-        return customer;
+    public String getCustomerFIO() {
+        return customerFIO;
     }
 }

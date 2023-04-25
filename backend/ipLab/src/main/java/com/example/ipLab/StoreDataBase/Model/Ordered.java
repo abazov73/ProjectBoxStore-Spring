@@ -41,6 +41,17 @@ public class Ordered {
         }
     }
 
+    @PreRemove
+    public void removeProduct(){
+        this.product.getOrders().remove(this);
+        this.product = null;
+        removeCustomer();
+    }
+    public void removeCustomer(){
+        this.customer.getOrders().remove(this);
+        this.customer = null;
+    }
+
     public int getQuantity() {
         return quantity;
     }
