@@ -41,6 +41,14 @@ public class ProductService {
     public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
+    @Transactional
+    public List<Product> getAllProductsWithStores(){
+        return productRepository.findAllProductsWithStores().stream().toList();
+    }
+    @Transactional
+    public List<Product> getAllProductsWithoutStores(){
+        return productRepository.findAllProductsWithoutStores().stream().toList();
+    }
 
     @Transactional
     public Product updateProduct(Long id, String productName){

@@ -28,17 +28,16 @@ public class ProductController {
                 .toList();
     }
 
-    //сделать запрос + пагинация
     @GetMapping("/getWithStores")
     public List<ProductDTO> getProductsWithStores(){
-        return  productService.getAllProducts().stream().filter(prod -> prod.getStore() != null)
+        return  productService.getAllProductsWithStores().stream()
                 .map(ProductDTO::new)
                 .toList();
     }
 
     @GetMapping("/getWithoutStores")
     public List<ProductDTO> getProductsWithoutStores(){
-        return  productService.getAllProducts().stream().filter(prod -> prod.getStore() == null)
+        return  productService.getAllProductsWithoutStores().stream()
                 .map(ProductDTO::new)
                 .toList();
     }
