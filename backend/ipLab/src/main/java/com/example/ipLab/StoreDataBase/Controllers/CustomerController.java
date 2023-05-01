@@ -3,12 +3,14 @@ package com.example.ipLab.StoreDataBase.Controllers;
 import com.example.ipLab.StoreDataBase.DTO.CustomerDTO;
 import com.example.ipLab.StoreDataBase.Model.Customer;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
+import com.example.ipLab.WebConfiguration;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping(WebConfiguration.REST_API + "/customer")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -29,19 +31,15 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerDTO createCustomer(@RequestParam("customerLastName") String customerLastName,
-                                      @RequestParam("customerFirstName") String customerFirstName,
-                                      @RequestParam("customerMiddleName") String customerMiddleName){
-        final Customer customer = customerService.addCustomer(customerLastName, customerFirstName, customerMiddleName);
+    public CustomerDTO createCustomer(@RequestBody @Valid CustomerDTO customerDTO){
+        final Customer customer = customerService.addCustomer(customerDTO.getlastName(), customerDTO.getfirstName(), customerDTO.getmiddleName());
         return new CustomerDTO(customer);
     }
 
     @PutMapping("/{id}")
-    public CustomerDTO updateCustomer(@RequestParam("customerLastName") String customerLastName,
-                                      @RequestParam("customerFirstName") String customerFirstName,
-                                      @RequestParam("customerMiddleName") String customerMiddleName,
+    public CustomerDTO updateCustomer(@RequestBody @Valid CustomerDTO customerDTO,
                                       @PathVariable Long id){
-        return new CustomerDTO(customerService.updateCustomer(id, customerLastName, customerFirstName, customerMiddleName));
+        return new CustomerDTO(customerService.updateCustomer(id, customerDTO.getlastName(), customerDTO.getfirstName(), customerDTO.getmiddleName()));
     }
 
     @DeleteMapping("/{id}")

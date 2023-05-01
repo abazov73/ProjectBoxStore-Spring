@@ -13,7 +13,7 @@ function toJSON(data) {
 }
 
 export default class DataService {
-    static dataUrlPrefix = 'http://localhost:8080/';
+    static dataUrlPrefix = 'http://localhost:8080/api/';
 
     static async readAll(url, transformer) {
         const response = await axios.get(this.dataUrlPrefix + url);
@@ -26,13 +26,12 @@ export default class DataService {
     }
 
     static async create(url, data) {
-        console.log("Test create " + this.dataUrlPrefix + url + data);
-        const response = await axios.post(this.dataUrlPrefix + url + data);
+        const response = await axios.post(this.dataUrlPrefix + url, data);
         return true;
     }
 
     static async update(url, data) {
-        const response = await axios.put(this.dataUrlPrefix + url + data);
+        const response = await axios.put(this.dataUrlPrefix + url, data);
         return true;
     }
 

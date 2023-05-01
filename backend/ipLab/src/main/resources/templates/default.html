@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8"/>
+  <title>IP Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="icon" href="/favicon.ico">
+  <script type="text/javascript" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/webjars/font-awesome/6.1.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/styleSite.css"/>
+</head>
+<body>
+<header>
+  <div class="d-flex flex-row headerContainer">
+    <nav class="navbar navbar-expand-md">
+      <div class="container-fluid" id="navigationMenu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav" id="headerNavigation">
+            <a class="nav-link headNav" href="/customer"
+               th:classappend="${#strings.equals(activeLink, '/customer')} ? 'active' : ''">Клиенты</a>
+            <a class="nav-link headNav" href="/store"
+               th:classappend="${#strings.equals(activeLink, '/store')} ? 'active' : ''">Магазины</a>
+            <a class="nav-link headNav" href="/product"
+               th:classappend="${#strings.equals(activeLink, '/product')} ? 'active' : ''">Товары</a>
+            <a class="nav-link headNav" href="/order"
+               th:classappend="${#strings.equals(activeLink, '/order')} ? 'active' : ''">Заказы</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="container container-padding" layout:fragment="content">
+  </div>
+</div>
+</body>
+<th:block layout:fragment="scripts">
+</th:block>
+</html>

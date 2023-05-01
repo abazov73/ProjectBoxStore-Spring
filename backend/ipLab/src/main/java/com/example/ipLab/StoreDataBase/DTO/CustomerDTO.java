@@ -1,14 +1,20 @@
 package com.example.ipLab.StoreDataBase.DTO;
 
 import com.example.ipLab.StoreDataBase.Model.Customer;
-
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
 
 public class CustomerDTO {
-    public final Long id;
-    public final String lastName;
-    public final String firstName;
-    public final String middleName;
+    public Long id;
+    @NotBlank(message = "lastName can't be null or empty")
+    public String lastName;
+    @NotBlank(message = "firstName can't be null or empty")
+    public String firstName;
+    @NotBlank(message = "middleName can't be null or empty")
+    public String middleName;
+
+    public CustomerDTO(){
+
+    }
 
     public CustomerDTO(Customer customer){
         this.id = customer.getId();
@@ -20,16 +26,25 @@ public class CustomerDTO {
     public Long getId() {
         return id;
     }
-
-    public String getLastname() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getlastName() {
         return lastName;
     }
-
-    public String getFirstname() {
+    public void setlastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public String getfirstName() {
         return firstName;
     }
-
-    public String getMiddleName() {
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getmiddleName() {
         return middleName;
+    }
+    public void setmiddleName(String middleName) {
+        this.middleName = middleName;
     }
 }

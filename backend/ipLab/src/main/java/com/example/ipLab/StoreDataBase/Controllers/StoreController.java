@@ -7,12 +7,14 @@ import com.example.ipLab.StoreDataBase.Model.Customer;
 import com.example.ipLab.StoreDataBase.Model.Store;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.StoreService;
+import com.example.ipLab.WebConfiguration;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping(WebConfiguration.REST_API + "/store")
 public class StoreController {
     private final StoreService storeService;
 
@@ -33,21 +35,21 @@ public class StoreController {
     }
 
     @PostMapping
-    public StoreDTO createStore(@RequestParam("storeName") String storeName){
-        final Store store = storeService.addStore(storeName);
+    public StoreDTO createStore(@RequestBody @Valid StoreDTO storeDTO){
+        final Store store = storeService.addStore(storeDTO.getStoreName());
         return new StoreDTO(store);
     }
 
     @PutMapping("/{id}")
-    public StoreDTO updateStore(@RequestParam("storeName") String storeName,
+    public StoreDTO updateStore(@RequestBody @Valid StoreDTO storeDTO,
                                       @PathVariable Long id){
-        return new StoreDTO(storeService.updateStore(id, storeName));
+        return new StoreDTO(storeService.updateStore(id, storeDTO.getStoreName()));
     }
 
-    @PutMapping("/add")
-    public ProductDTO addProduct(@RequestParam("storeId") Long storeId,
-                                 @RequestParam("productId") Long productId){
-        return new ProductDTO(storeService.addProduct(storeId, productId));
+    @PutMapping("{id}/add")
+    public ProductDTO addProduct(@PathVariable Long id,
+                                 @RequestBody @Valid CustomerDTO customerDTO){
+        return new ProductDTO(storeService.addProduct(id, customerDTO.getId()));
     }
 
     @DeleteMapping("/{id}")

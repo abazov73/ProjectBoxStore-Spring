@@ -3,12 +3,14 @@ package com.example.ipLab.StoreDataBase.Controllers;
 import com.example.ipLab.StoreDataBase.DTO.ProductDTO;
 import com.example.ipLab.StoreDataBase.Model.Product;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
+import com.example.ipLab.WebConfiguration;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping(WebConfiguration.REST_API + "/product")
 public class ProductController {
     private final ProductService productService;
 
@@ -43,15 +45,15 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDTO createProduct(@RequestParam("productName") String productName){
-        final Product product = productService.addProduct(productName);
+    public ProductDTO createProduct(@RequestBody @Valid ProductDTO productDTO){
+        final Product product = productService.addProduct(productDTO.getName());
         return new ProductDTO(product);
     }
 
     @PutMapping("/{id}")
-    public ProductDTO updateProduct(@RequestParam("productName") String productName,
+    public ProductDTO updateProduct(@RequestBody @Valid ProductDTO productDTO,
                                       @PathVariable Long id){
-        return new ProductDTO(productService.updateProduct(id, productName));
+        return new ProductDTO(productService.updateProduct(id, productDTO.getName()));
     }
 
     @DeleteMapping("/{id}")

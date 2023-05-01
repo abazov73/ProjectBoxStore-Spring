@@ -28,10 +28,15 @@ export default function CustomerTable(props){
     }
 
     function saveItem() {
+        let ordered = {
+            productId: props.data.productId,
+            customerId: props.data.customerId,
+            quantity: props.data.quantity
+        }
         if (!isEdit) {
-            DataService.create(props.url, "?productId=" + props.data.productId + "&customerId=" + props.data.customerId + "&quantity=" + props.data.quantity).then(() => loadItems());
+            DataService.create(props.url, ordered).then(() => loadItems());
         } else {
-            DataService.update(props.getUrl + props.data.id, "?productId=" + props.data.productId + "&customerId=" + props.data.customerId + "&quantity=" + props.data.quantity).then(() => loadItems());
+            DataService.update(props.getUrl + props.data.id, ordered).then(() => loadItems());
         }
     }
 

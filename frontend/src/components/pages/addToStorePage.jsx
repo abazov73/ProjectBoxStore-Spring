@@ -6,7 +6,7 @@ import { useState, useEffect} from "react";
 export default function AddToStorePage(){
     const getStoreUrl = 'store';
     const getProductUrl = 'product/getWithoutStores'
-    const url = 'store/add'
+    const url = 'store/'
     const [storeOptions, setStoreOptions] = useState([])
     const [productOptions, setProductOptions] = useState([])
     const transformerProduct = (data) => new Product(data);
@@ -44,8 +44,10 @@ export default function AddToStorePage(){
     function add(){
         var storeId = document.getElementById("storeId").value;
         var productId = document.getElementById("productId").value;
-
-        DataService.update(url, "?storeId=" + storeId + "&productId=" + productId);
+        let product = {
+            id: productId
+        }
+        DataService.update(url + storeId + "/add", product);
         window.location.replace("/product");
     }
 

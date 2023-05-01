@@ -5,12 +5,14 @@ import com.example.ipLab.StoreDataBase.Model.Ordered;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.OrderService;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
+import com.example.ipLab.WebConfiguration;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/order")
+@RequestMapping(WebConfiguration.REST_API + "/order")
 public class OrderedController {
     private final OrderService orderedService;
     private final ProductService productService;
@@ -35,17 +37,15 @@ public class OrderedController {
     }
 
     @PostMapping
-    public OrderedDTO createOrdered(@RequestParam("productId") Long productId,
-                                    @RequestParam("customerId") Long customerId,
-                                    @RequestParam("quantity") Integer quantity){
-        final Ordered ordered = orderedService.addOrder(productService.getProduct(productId), customerService.getCustomer(customerId), quantity);
+    public OrderedDTO createOrdered(@RequestBody @Valid OrderedDTO orderedDTO){
+        final Ordered ordered = orderedService.addOrder(productService.getProduct(orderedDTO.getProductId()), customerService.getCustomer(orderedDTO.getCustomerId()), orderedDTO.quantity);
         return new OrderedDTO(ordered);
     }
 
     @PutMapping("/{id}")
-    public OrderedDTO updateOrdered(@RequestParam("quantity") Integer quantity,
+    public OrderedDTO updateOrdered(@RequestBody @Valid OrderedDTO orderedDTO,
                                     @PathVariable Long id){
-        return new OrderedDTO(orderedService.updateOrder(id, quantity));
+        return new OrderedDTO(orderedService.updateOrder(id, orderedDTO.quantity));
     }
 
     @DeleteMapping("/{id}")

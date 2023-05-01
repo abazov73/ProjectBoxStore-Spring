@@ -23,14 +23,15 @@ export default function CustomerTable(props){
     }
 
     function saveItem() {
+        let customer = {
+            lastName: props.data.lastName,
+            firstName: props.data.firstName,
+            middleName: props.data.middleName
+        }
         if (!isEdit) {
-            DataService.create(props.url, "?customerLastName=" + props.data.lastName 
-                                + "&customerFirstName=" + props.data.firstName
-                                + "&customerMiddleName=" + props.data.middleName).then(() => loadItems());
+            DataService.create(props.url, customer).then(() => loadItems());
         } else {
-            DataService.update(props.getUrl + props.data.id, "?customerLastName=" + props.data.lastName 
-                                + "&customerFirstName=" + props.data.firstName
-                                + "&customerMiddleName=" + props.data.middleName).then(() => loadItems());
+            DataService.update(props.getUrl + props.data.id, customer).then(() => loadItems());
         }
     }
 

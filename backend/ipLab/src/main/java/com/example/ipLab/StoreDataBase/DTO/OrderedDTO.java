@@ -3,11 +3,17 @@ package com.example.ipLab.StoreDataBase.DTO;
 import com.example.ipLab.StoreDataBase.Model.Ordered;
 
 public class OrderedDTO {
-    public final Long id;
-    public final int quantity;
-    public final String productName;
-    public final String customerFIO;
-    public final String storeName;
+    public Long id;
+    public int quantity;
+    public String productName;
+    public String customerFIO;
+    public String storeName;
+    public Long customerId;
+    public Long productId;
+
+    public OrderedDTO(){
+
+    }
 
     public OrderedDTO(Ordered ordered){
         this.id = ordered.getId();
@@ -15,6 +21,8 @@ public class OrderedDTO {
         this.productName = ordered.getProduct().getName();
         this.storeName = ordered.getProduct().getStore().getStoreName();
         this.customerFIO = ordered.getCustomer().getLastName() + " " + ordered.getCustomer().getFirstName() + " " + ordered.getCustomer().getMiddleName();
+        this.customerId = ordered.getProduct().getId();
+        this.productId = ordered.getProduct().getId();
     }
 
     public Long getId() {
@@ -35,5 +43,13 @@ public class OrderedDTO {
 
     public String getStoreName() {
         return storeName;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public Long getProductId() {
+        return productId;
     }
 }

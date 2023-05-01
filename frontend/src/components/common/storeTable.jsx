@@ -23,10 +23,13 @@ export default function CustomerTable(props){
     }
 
     function saveItem() {
+        let store = {
+            storeName: props.data.storeName
+        }
         if (!isEdit) {
-            DataService.create(props.url, "?storeName=" + props.data.storeName).then(() => loadItems());
+            DataService.create(props.url, store).then(() => loadItems());
         } else {
-            DataService.update(props.getUrl + props.data.id, "?storeName=" + props.data.storeName).then(() => loadItems());
+            DataService.update(props.getUrl + props.data.id, store).then(() => loadItems());
         }
     }
 

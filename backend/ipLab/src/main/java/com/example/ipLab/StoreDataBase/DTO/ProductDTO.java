@@ -5,9 +5,12 @@ import com.example.ipLab.StoreDataBase.Model.Product;
 import java.util.List;
 
 public class ProductDTO {
-    public final Long id;
-    public final String productName;
-    public final String storeName;
+    public Long id;
+    public String productName;
+    public String storeName;
+    public ProductDTO(){
+
+    }
 
     public ProductDTO(Product product){
         this.id = product.getId();
