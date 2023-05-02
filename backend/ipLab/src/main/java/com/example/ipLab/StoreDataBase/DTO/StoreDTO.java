@@ -23,8 +23,12 @@ public class StoreDTO {
         return id;
     }
 
-    public String getStoreName() {
+    public String getstoreName() {
         return storeName;
+    }
+
+    public void setstoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public List<ProductDTO> getProducts() {

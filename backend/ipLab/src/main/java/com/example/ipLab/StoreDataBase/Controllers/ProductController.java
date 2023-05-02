@@ -46,14 +46,14 @@ public class ProductController {
 
     @PostMapping
     public ProductDTO createProduct(@RequestBody @Valid ProductDTO productDTO){
-        final Product product = productService.addProduct(productDTO.getName());
+        final Product product = productService.addProduct(productDTO.getproductName());
         return new ProductDTO(product);
     }
 
     @PutMapping("/{id}")
     public ProductDTO updateProduct(@RequestBody @Valid ProductDTO productDTO,
                                       @PathVariable Long id){
-        return new ProductDTO(productService.updateProduct(id, productDTO.getName()));
+        return new ProductDTO(productService.updateProduct(id, productDTO.getproductName()));
     }
 
     @DeleteMapping("/{id}")

@@ -11,6 +11,7 @@ public class CustomerDTO {
     public String firstName;
     @NotBlank(message = "middleName can't be null or empty")
     public String middleName;
+    public String customerFIO;
 
     public CustomerDTO(){
 
@@ -21,6 +22,7 @@ public class CustomerDTO {
         this.lastName = customer.getLastName();
         this.firstName = customer.getFirstName();
         this.middleName = customer.getMiddleName();
+        this.customerFIO = lastName + " " + firstName + " " + middleName;
     }
 
     public Long getId() {
@@ -46,5 +48,13 @@ public class CustomerDTO {
     }
     public void setmiddleName(String middleName) {
         this.middleName = middleName;
+    }
+
+    public String getcustomerFIO() {
+        return customerFIO;
+    }
+
+    public void setcustomerFIO(String customerFIO) {
+        this.customerFIO = customerFIO;
     }
 }

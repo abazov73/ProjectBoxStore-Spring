@@ -2,8 +2,6 @@ package com.example.ipLab.StoreDataBase.DTO;
 
 import com.example.ipLab.StoreDataBase.Model.Product;
 
-import java.util.List;
-
 public class ProductDTO {
     public Long id;
     public String productName;
@@ -22,8 +20,12 @@ public class ProductDTO {
         return id;
     }
 
-    public String getName() {
+    public String getproductName() {
         return productName;
+    }
+
+    public void setproductName(String productName) {
+        this.productName = productName;
     }
 
     public String getStoreName() {

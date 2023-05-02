@@ -3,9 +3,7 @@ package com.example.ipLab.StoreDataBase.Controllers;
 import com.example.ipLab.StoreDataBase.DTO.CustomerDTO;
 import com.example.ipLab.StoreDataBase.DTO.ProductDTO;
 import com.example.ipLab.StoreDataBase.DTO.StoreDTO;
-import com.example.ipLab.StoreDataBase.Model.Customer;
 import com.example.ipLab.StoreDataBase.Model.Store;
-import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.StoreService;
 import com.example.ipLab.WebConfiguration;
 import jakarta.validation.Valid;
@@ -36,14 +34,14 @@ public class StoreController {
 
     @PostMapping
     public StoreDTO createStore(@RequestBody @Valid StoreDTO storeDTO){
-        final Store store = storeService.addStore(storeDTO.getStoreName());
+        final Store store = storeService.addStore(storeDTO.getstoreName());
         return new StoreDTO(store);
     }
 
     @PutMapping("/{id}")
     public StoreDTO updateStore(@RequestBody @Valid StoreDTO storeDTO,
                                       @PathVariable Long id){
-        return new StoreDTO(storeService.updateStore(id, storeDTO.getStoreName()));
+        return new StoreDTO(storeService.updateStore(id, storeDTO.getstoreName()));
     }
 
     @PutMapping("{id}/add")

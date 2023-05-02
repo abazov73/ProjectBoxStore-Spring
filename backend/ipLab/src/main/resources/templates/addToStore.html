@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{default}">
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+  <div th:text="${errors}" class="margin-bottom alert-danger"></div>
+  <form action="#" th:action="@{/store/add}" method="post">
+    <div class="mb-3">
+      <label for="store" class="form-label">Покупатель</label>
+      <select id="store" class="form-select" th:name="storeId">
+        <option th:each="value: ${stores}" th:value="${value.id}" th:selected="${storeId} == ${value}">
+          <span th:text="${value.storeName}"></span>
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="product" class="form-label">Продукт</label>
+      <select id="product" class="form-select" th:name="productId">
+        <option th:each="value: ${products}" th:value="${value.id}" th:selected="${productId} == ${value}">
+          <span th:text="${value.productName}"></span>
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary button-fixed">
+        <span>Добавить</span>
+      </button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

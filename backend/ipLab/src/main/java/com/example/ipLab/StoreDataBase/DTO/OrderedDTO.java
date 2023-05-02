@@ -1,6 +1,8 @@
 package com.example.ipLab.StoreDataBase.DTO;
 
+import com.example.ipLab.StoreDataBase.Model.Customer;
 import com.example.ipLab.StoreDataBase.Model.Ordered;
+import com.example.ipLab.StoreDataBase.Model.Product;
 
 public class OrderedDTO {
     public Long id;
@@ -33,16 +35,28 @@ public class OrderedDTO {
         return quantity;
     }
 
-    public String getProductName() {
+    public String getproductName() {
         return productName;
     }
 
-    public String getCustomerFIO() {
+    public void setproductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getcustomerFIO() {
         return customerFIO;
     }
 
-    public String getStoreName() {
+    public void setcustomerFIO(String customerFIO) {
+        this.customerFIO = customerFIO;
+    }
+
+    public String getstoreName() {
         return storeName;
+    }
+
+    public void setstoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public Long getCustomerId() {

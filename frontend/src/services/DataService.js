@@ -17,6 +17,7 @@ export default class DataService {
 
     static async readAll(url, transformer) {
         const response = await axios.get(this.dataUrlPrefix + url);
+        console.log(response);
         return response.data.map(item => transformer(item));
     }
 
