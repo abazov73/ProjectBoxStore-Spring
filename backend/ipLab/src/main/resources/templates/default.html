@@ -23,6 +23,8 @@
         </button>
         <div class="navbar-collapse collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav" id="headerNavigation">
+            <a class="nav-link headNav" href="/"
+               th:classappend="${#strings.equals(activeLink, '/')} ? 'active' : ''">Главная</a>
             <a class="nav-link headNav" href="/customer"
                th:classappend="${#strings.equals(activeLink, '/customer')} ? 'active' : ''">Клиенты</a>
             <a class="nav-link headNav" href="/store"
