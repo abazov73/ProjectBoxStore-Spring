@@ -10,7 +10,7 @@ export default function Header(props){
                         <img src="logo.png" alt="*" width="60" height="60" className="align-text-top"></img>
                     </a>
                     <div id="logoName">
-                        <a href="customer">boxStore</a>
+                        <a href="store">boxStore</a>
                     </div>
                 </div>
                 <nav className="navbar navbar-expand-md">
@@ -30,6 +30,15 @@ export default function Header(props){
                                         </NavLink>
                                     </li>
                                 )
+                            }
+                            {props.token && props.token !== undefined ?
+                            <NavLink className="nav-link navigationCaption" to="/logout">
+                                <div>Выход</div>
+                            </NavLink>
+                            :
+                            <NavLink className="nav-link navigationCaption" to="/login">
+                                <div>Вход</div>
+                            </NavLink>
                             }
                             </ul>
                         </div>

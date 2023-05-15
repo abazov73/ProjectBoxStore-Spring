@@ -18,7 +18,6 @@ public class User {
     @NotBlank
     private String password;
     @Column
-    @NotBlank
     private Long userId;
 
     private UserRole role;
@@ -59,6 +58,10 @@ public class User {
 
     public UserRole getRole() {
         return role;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     @Override

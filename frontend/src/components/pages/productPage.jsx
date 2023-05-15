@@ -1,8 +1,9 @@
 import Product from "../../models/product"
 import ProductTable from '../common/productTable'
 import { useState, useEffect} from "react";
+import checkLogin from "../../checkLogin";
 
-export default function ProductPage(){
+function ProductPage(){
     const url = 'product';
     const getUrl = 'product/';
     const transformer = (data) => new Product(data);
@@ -42,3 +43,5 @@ export default function ProductPage(){
       </article>
     )
 }
+
+export default checkLogin(ProductPage);

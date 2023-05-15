@@ -1,10 +1,13 @@
 import { useRoutes, Outlet, BrowserRouter } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Header from './components/common/Header';
 import CustomerPage from './components/pages/customerPage';
 import StorePage from './components/pages/storePage';
 import ProductPage from './components/pages/productPage';
 import OrderPage from './components/pages/orderPage';
-import AddToStorePage from './components/pages/addToStorePage'
+import AddToStorePage from './components/pages/addToStorePage';
+import LoginPage from './components/pages/loginPage';
+import Logout from './components/pages/logout';
 import './styleSite.css';
 
 function Router(props) {
@@ -13,14 +16,32 @@ function Router(props) {
 
 export default function App() {
   const routes = [
-    { index: true, element: <CustomerPage/> },
-    { path: 'customer', element: <CustomerPage/>, label:'Покупатели'},
+    { index: true, element: <StorePage/> },
+    localStorage.getItem("role") === "ADMIN" && { path: 'customer', element: <CustomerPage/>, label:'Покупатели'},
     { path: 'store', element: <StorePage/>, label: 'Магазины' },
     { path: 'product', element: <ProductPage/>, label: 'Товары' },
     { path: 'order', element: <OrderPage/>, label: 'Заказы'},
-    { path: 'addToStore', element: <AddToStorePage/>, label: 'Доставка'}
+    localStorage.getItem("role") === "ADMIN" && { path: 'addToStore', element: <AddToStorePage/>, label: 'Доставка'},
+    { path: '/login', element: <LoginPage/>},
+    { path: '/logout', element: <Logout/>}
   ];
   const links = routes.filter(route => route.hasOwnProperty('label'));
+  
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    
+    function handleStorageChange() {
+      setToken(localStorage.getItem('token'));
+    }
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   const rootRoute = [
     { path: '/', element: render(links), children: routes }
   ];
@@ -29,7 +50,7 @@ export default function App() {
     console.info('render links');
     return (
       <>
-        <Header links={links} />
+        <Header token={token} links={links} />
         <div className="container-fluid">
           <Outlet />
         </div>

@@ -3,8 +3,9 @@ import Product from "../../models/product"
 import Customer from "../../models/customer";
 import OrderTable from '../common/orderTable'
 import { useState, useEffect} from "react";
+import checkLogin from '../../checkLogin';
 
-export default function OrderPage(){
+function OrderPage(){
     const url = 'order';
     const getUrl = 'order/';
     const getCustomerUrl = 'customer';
@@ -106,3 +107,4 @@ export default function OrderPage(){
       </article>
     )
 }
+export default checkLogin(OrderPage);

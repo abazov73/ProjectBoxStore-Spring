@@ -1,12 +1,15 @@
 package com.example.ipLab.StoreDataBase.Controllers;
 
 import com.example.ipLab.StoreDataBase.DTO.OrderedDTO;
+import com.example.ipLab.StoreDataBase.Model.CustomUser;
 import com.example.ipLab.StoreDataBase.Model.Ordered;
+import com.example.ipLab.StoreDataBase.Model.UserRole;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.OrderService;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
 import com.example.ipLab.WebConfiguration;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +33,18 @@ public class OrderedController {
     }
 
     @GetMapping
-    public List<OrderedDTO> getOrdereds(){
-        return  orderedService.getAllOrders().stream()
-                .map(OrderedDTO::new)
-                .toList();
+    public List<OrderedDTO> getOrdereds(@AuthenticationPrincipal CustomUser user){
+        if (user.getRole() == UserRole.USER){
+            return  orderedService.getOrdersByCustomerId(user.getUserID()).stream()
+                    .map(OrderedDTO::new)
+                    .toList();
+        }
+        else{
+            return  orderedService.getAllOrders().stream()
+                    .map(OrderedDTO::new)
+                    .toList();
+        }
+
     }
 
     @PostMapping

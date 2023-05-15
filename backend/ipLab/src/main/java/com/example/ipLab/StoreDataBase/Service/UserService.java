@@ -92,6 +92,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new CustomUser(
-                userEntity.getLogin(), userEntity.getPassword(), Collections.singleton(userEntity.getRole()), userEntity.getId(), userEntity.getRole());
+                userEntity.getLogin(), userEntity.getPassword(), Collections.singleton(userEntity.getRole()), userEntity.getUserId(), userEntity.getRole());
     }
 }

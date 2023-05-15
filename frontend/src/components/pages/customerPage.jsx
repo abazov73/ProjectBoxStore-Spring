@@ -1,8 +1,9 @@
 import Customer from "../../models/customer"
 import CustomerTable from '../common/customerTable'
 import { useState, useEffect} from "react";
+import checkLogin from '../../checkLogin';
 
-export default function CustomerPage(){
+function CustomerPage(){
     const url = 'customer';
     const getUrl = 'customer/';
     const transformer = (data) => new Customer(data);
@@ -51,3 +52,5 @@ export default function CustomerPage(){
       </article>
     )
 }
+
+export default checkLogin(CustomerPage);

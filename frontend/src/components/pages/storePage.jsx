@@ -1,8 +1,9 @@
 import Store from "../../models/store"
 import StoreTable from '../common/storeTable'
 import { useState, useEffect} from "react";
+import checkLogin from "../../checkLogin";
 
-export default function StorePage(){
+function StorePage(){
     const url = 'store';
     const getUrl = 'store/';
     const transformer = (data) => new Store(data);
@@ -41,3 +42,5 @@ export default function StorePage(){
       </article>
     )
 }
+
+export default checkLogin(StorePage);

@@ -1,10 +1,13 @@
 package com.example.ipLab.StoreDataBase.Controllers;
 
 import com.example.ipLab.StoreDataBase.DTO.ProductDTO;
+import com.example.ipLab.StoreDataBase.Model.CustomUser;
 import com.example.ipLab.StoreDataBase.Model.Product;
+import com.example.ipLab.StoreDataBase.Model.UserRole;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
 import com.example.ipLab.WebConfiguration;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +27,18 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductDTO> getProducts(){
-        return  productService.getAllProducts().stream()
-                .map(ProductDTO::new)
-                .toList();
+    public List<ProductDTO> getProducts(@AuthenticationPrincipal CustomUser user){
+        if (user.getRole() == UserRole.USER){
+            return  productService.getAllProductsWithStores().stream()
+                    .map(ProductDTO::new)
+                    .toList();
+        }
+        else{
+            return  productService.getAllProducts().stream()
+                    .map(ProductDTO::new)
+                    .toList();
+        }
+
     }
 
     @GetMapping("/getWithStores")

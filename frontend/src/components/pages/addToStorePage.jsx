@@ -2,8 +2,9 @@ import Product from "../../models/product"
 import Store from "../../models/store"
 import DataService from '../../services/DataService';
 import { useState, useEffect} from "react";
+import checkLogin from '../../checkLogin';
 
-export default function AddToStorePage(){
+function AddToStorePage(){
     const getStoreUrl = 'store';
     const getProductUrl = 'product/getWithoutStores'
     const url = 'store/'
@@ -87,3 +88,5 @@ export default function AddToStorePage(){
     </>
     );
 }
+
+export default checkLogin(AddToStorePage);
