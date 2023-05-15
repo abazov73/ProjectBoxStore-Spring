@@ -31,12 +31,12 @@ export default class DataService {
     }
 
     static async create(url, data) {
-        const response = await axios.post(this.dataUrlPrefix + url, data);
+        const response = await axios.post(this.dataUrlPrefix + url, data, {headers: {"Authorization": getTokenForHeader()}});
         return true;
     }
 
     static async update(url, data) {
-        const response = await axios.put(this.dataUrlPrefix + url, data);
+        const response = await axios.put(this.dataUrlPrefix + url, data, {headers: {"Authorization": getTokenForHeader()}});
         return true;
     }
 
