@@ -3,10 +3,13 @@ package com.example.ipLab.StoreDataBase.MVC;
 import com.example.ipLab.StoreDataBase.DTO.CustomerDTO;
 import com.example.ipLab.StoreDataBase.DTO.OrderedDTO;
 import com.example.ipLab.StoreDataBase.DTO.ProductDTO;
+import com.example.ipLab.StoreDataBase.Model.CustomUser;
+import com.example.ipLab.StoreDataBase.Model.UserRole;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.StoreDataBase.Service.OrderService;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,11 +29,19 @@ public class OrderedMVCController {
     }
 
     @GetMapping
-    public String getOrdereds(Model model) {
-        model.addAttribute("orders",
-                orderedService.getAllOrders().stream()
-                        .map(OrderedDTO::new)
-                        .toList());
+    public String getOrdereds(Model model, @AuthenticationPrincipal CustomUser user) {
+        if (user.getRole() == UserRole.USER){
+            model.addAttribute("orders",
+                    orderedService.getOrdersByCustomerId(user.getUserID()).stream()
+                            .map(OrderedDTO::new)
+                            .toList());
+        }
+        else {
+            model.addAttribute("orders",
+                    orderedService.getAllOrders().stream()
+                            .map(OrderedDTO::new)
+                            .toList());
+        }
         return "order";
     }
 

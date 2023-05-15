@@ -5,7 +5,7 @@
 <head>
 </head>
 <body>
-<div layout:fragment="content">
+<div sec:authorize="hasRole('ROLE_ADMIN')" layout:fragment="content">
   <div th:text="${errors}" class="margin-bottom alert-danger"></div>
   <form action="#" th:action="@{/store/add}" method="post">
     <div class="mb-3">

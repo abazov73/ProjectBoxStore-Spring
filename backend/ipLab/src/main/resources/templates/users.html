@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="table-responsive">
+  <table class="table table-success table-hover">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Логин</th>
+      <th scope="col">Роль</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, iterator: ${users}">
+      <th scope="row" th:text="${iterator.index} + 1"/>
+      <td th:text="${user.login}"/>
+      <td th:text="${user.role}"/>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

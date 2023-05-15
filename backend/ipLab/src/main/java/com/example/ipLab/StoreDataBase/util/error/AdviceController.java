@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.file.AccessDeniedException;
 import java.util.stream.Collectors;
 
 @ControllerAdvice(annotations = RestController.class)
@@ -34,6 +35,14 @@ public class AdviceController {
                         .collect(Collectors.toSet()));
         return handleException(validationException);
     }
+
+    @ExceptionHandler({
+            AccessDeniedException.class
+    })
+    public ResponseEntity<Object> handleAccessDeniedException(Throwable e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUnknownException(Throwable e) {

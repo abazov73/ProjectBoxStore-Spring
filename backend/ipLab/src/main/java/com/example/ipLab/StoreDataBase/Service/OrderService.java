@@ -53,6 +53,11 @@ public class OrderService {
     }
 
     @Transactional
+    public List<Ordered> getOrdersByCustomerId(Long customerId){
+        return orderedRepository.findOrdersByCustomerId(customerId).stream().toList();
+    }
+
+    @Transactional
     public Ordered updateOrder(Long id, int quantity){
         final Ordered order = getOrder(id);
         order.setQuantity(quantity);

@@ -6,7 +6,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-  <div>
+  <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a class="btn btn-success button-fixed"
        th:href="@{/store/edit/}">
       <i class="fa-solid fa-plus"></i> Добавить
@@ -18,14 +18,14 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Название магазина</th>
-        <th scope="col"></th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')" scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="store, iterator: ${stores}">
         <th scope="row" th:text="${iterator.index} + 1"/>
         <td th:text="${store.storeName}"/>
-        <td style="width: 10%">
+        <td sec:authorize="hasRole('ROLE_ADMIN')" style="width: 10%">
           <div class="btn-group" role="group" aria-label="Basic example">
             <a class="btn btn-warning button-fixed button-sm"
                th:href="@{/store/edit/{id}(id=${store.id})}">

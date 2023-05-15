@@ -6,7 +6,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-  <div>
+  <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a class="btn btn-success button-fixed"
        th:href="@{/order/edit/}">
       <i class="fa-solid fa-plus"></i> Добавить

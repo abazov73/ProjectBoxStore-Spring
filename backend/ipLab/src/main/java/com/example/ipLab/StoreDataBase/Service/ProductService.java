@@ -36,7 +36,6 @@ public class ProductService {
     public Product getProduct(Long id){
         return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
-
     @Transactional
     public List<Product> getAllProducts(){
         return productRepository.findAll();

@@ -23,7 +23,7 @@
         </button>
         <div class="d-flex flex-row ml-3 ms-3 mt-auto mb-auto align-items-center">
           <a>
-            <img src="/logo.png" alt="*" width="60" height="60" class="align-text-top"></img>
+            <img src="/img/logo.png" alt="*" width="60" height="60" class="align-text-top"/>
           </a>
           <div id="logoName">
             <a href="/">boxStore</a>
@@ -31,7 +31,7 @@
         </div>
         <div class="navbar-collapse collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav" id="headerNavigation">
-            <a class="nav-link headNav" href="/customer"
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link headNav" href="/customer"
                th:classappend="${#strings.equals(activeLink, '/customer')} ? 'active' : ''">Клиенты</a>
             <a class="nav-link headNav" href="/store"
                th:classappend="${#strings.equals(activeLink, '/store')} ? 'active' : ''">Магазины</a>
@@ -39,8 +39,10 @@
                th:classappend="${#strings.equals(activeLink, '/product')} ? 'active' : ''">Товары</a>
             <a class="nav-link headNav" href="/order"
                th:classappend="${#strings.equals(activeLink, '/order')} ? 'active' : ''">Заказы</a>
-            <a class="nav-link headNav" href="/store/addToStore"
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link headNav" href="/store/addToStore"
                th:classappend="${#strings.equals(activeLink, '/order')} ? 'active' : ''">Доставка</a>
+            <a sec:authorize="!isAuthenticated()" class="nav-link headNav" href="/login">Войти</a>
+            <a sec:authorize="isAuthenticated()" class="nav-link headNav" href="/logout">Выйти</a>
           </ul>
         </div>
       </div>

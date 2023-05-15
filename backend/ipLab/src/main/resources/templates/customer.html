@@ -5,7 +5,7 @@
 <head>
 </head>
 <body>
-<div layout:fragment="content">
+<div sec:authorize="hasRole('ROLE_ADMIN')" layout:fragment="content">
     <div>
         <a class="btn btn-success button-fixed"
            th:href="@{/customer/edit/}">
@@ -17,6 +17,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">ID</th>
                 <th scope="col">Фамилия</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Отчество</th>
@@ -26,6 +27,7 @@
             <tbody>
             <tr th:each="customer, iterator: ${customers}">
                 <th scope="row" th:text="${iterator.index} + 1"/>
+                <td th:text="${customer.Id}"/>
                 <td th:text="${customer.lastName}"/>
                 <td th:text="${customer.firstName}"/>
                 <td th:text="${customer.middleName}"/>

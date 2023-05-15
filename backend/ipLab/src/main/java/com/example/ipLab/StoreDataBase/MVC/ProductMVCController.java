@@ -1,12 +1,23 @@
 package com.example.ipLab.StoreDataBase.MVC;
 
+import com.example.ipLab.StoreDataBase.Configurations.SecurityConfiguration;
 import com.example.ipLab.StoreDataBase.DTO.ProductDTO;
+import com.example.ipLab.StoreDataBase.Model.CustomUser;
+import com.example.ipLab.StoreDataBase.Model.User;
+import com.example.ipLab.StoreDataBase.Model.UserRole;
 import com.example.ipLab.StoreDataBase.Service.ProductService;
+import com.example.ipLab.StoreDataBase.Service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/product")
@@ -18,11 +29,21 @@ public class ProductMVCController {
     }
 
     @GetMapping
-    public String getProducts(Model model) {
-        model.addAttribute("products",
-                productService.getAllProducts().stream()
-                        .map(ProductDTO::new)
-                        .toList());
+
+    public String getProducts(Model model, @AuthenticationPrincipal CustomUser user) {
+        if (user.getRole() == UserRole.USER){
+            model.addAttribute("products",
+                    productService.getAllProductsWithStores().stream()
+                            .map(ProductDTO::new)
+                            .toList());
+        }
+        else{
+            model.addAttribute("products",
+                    productService.getAllProducts().stream()
+                            .map(ProductDTO::new)
+                            .toList());
+        }
+
         return "product";
     }
 
