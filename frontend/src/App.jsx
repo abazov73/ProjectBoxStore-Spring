@@ -8,6 +8,7 @@ import OrderPage from './components/pages/orderPage';
 import AddToStorePage from './components/pages/addToStorePage';
 import LoginPage from './components/pages/loginPage';
 import Logout from './components/pages/logout';
+import ForbiddenPage from './components/pages/forbiddenPage'
 import './styleSite.css';
 
 function Router(props) {
@@ -18,10 +19,12 @@ export default function App() {
   const routes = [
     { index: true, element: <StorePage/> },
     localStorage.getItem("role") === "ADMIN" && { path: 'customer', element: <CustomerPage/>, label:'Покупатели'},
+    localStorage.getItem("role") !== "ADMIN" && { path: 'customer', element: <ForbiddenPage/>},
     { path: 'store', element: <StorePage/>, label: 'Магазины' },
     { path: 'product', element: <ProductPage/>, label: 'Товары' },
     { path: 'order', element: <OrderPage/>, label: 'Заказы'},
     localStorage.getItem("role") === "ADMIN" && { path: 'addToStore', element: <AddToStorePage/>, label: 'Доставка'},
+    localStorage.getItem("role") !== "ADMIN" && { path: 'addToStore', element: <ForbiddenPage/>},
     { path: '/login', element: <LoginPage/>},
     { path: '/logout', element: <Logout/>}
   ];

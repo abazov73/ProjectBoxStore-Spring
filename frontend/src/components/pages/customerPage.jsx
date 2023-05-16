@@ -28,7 +28,7 @@ function CustomerPage(){
     }
     return(
         <article className="h-100 mt-0 mb-0 d-flex flex-column justify-content-between">
-        <CustomerTable headers={catalogCustomerHeaders} 
+        {localStorage.getItem("role") === "ADMIN" && <CustomerTable headers={catalogCustomerHeaders} 
             getAllUrl={url}
             url={url}
             getUrl={getUrl}
@@ -48,7 +48,12 @@ function CustomerPage(){
             <label className="form-label" forhtml="middleName">Отчество</label>
             <input className="form-control" type="text" id="middleName" value={data.middleName} onChange={handleFormChange} required="required"/>
           </div>
-        </CustomerTable>
+        </CustomerTable>}
+        {localStorage.getItem("role") !== "ADMIN" && 
+          <div>
+            <h2>Forbidden</h2>
+            <a href="/">На главную</a>
+          </div>}
       </article>
     )
 }

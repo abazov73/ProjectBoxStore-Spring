@@ -1,10 +1,14 @@
 package com.example.ipLab.StoreDataBase.Controllers;
 
 import com.example.ipLab.StoreDataBase.DTO.CustomerDTO;
+import com.example.ipLab.StoreDataBase.Exceptions.ForbiddenException;
+import com.example.ipLab.StoreDataBase.Model.CustomUser;
 import com.example.ipLab.StoreDataBase.Model.Customer;
+import com.example.ipLab.StoreDataBase.Model.UserRole;
 import com.example.ipLab.StoreDataBase.Service.CustomerService;
 import com.example.ipLab.WebConfiguration;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDTO> getCustomers(){
+    public List<CustomerDTO> getCustomers(@AuthenticationPrincipal CustomUser user){
         return  customerService.getAllCustomers().stream()
                 .map(CustomerDTO::new)
                 .toList();
